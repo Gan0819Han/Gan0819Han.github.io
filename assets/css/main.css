@@ -477,6 +477,11 @@ h1 {
   color: #ffffff;
 }
 
+.contact-copy {
+  display: grid;
+  gap: 8px;
+}
+
 .contact h2 {
   margin-bottom: 8px;
   font-size: clamp(1.45rem, 3vw, 2rem);
@@ -487,6 +492,43 @@ h1 {
 .contact p {
   margin-bottom: 0;
   color: #c9d5d2;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.contact-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  display: grid;
+  gap: 6px;
+}
+
+.contact-card strong,
+.contact-card a {
+  color: #ffffff;
+}
+
+.contact-card a:hover {
+  color: #d7f6f0;
+}
+
+.contact-label {
+  color: #9ec7c0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.contact-card p {
+  color: #c9d5d2;
+  font-size: 0.92rem;
 }
 
 .contact .button.secondary {
@@ -536,6 +578,7 @@ h1 {
 
   .quick-facts,
   .grid-3,
+  .contact-grid,
   .profile-links,
   .structure-links {
     grid-template-columns: 1fr;
