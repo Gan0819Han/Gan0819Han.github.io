@@ -93,11 +93,11 @@
       font-size: 0.88rem;
     }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      color: var(--muted);
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        color: var(--muted);
       font-size: 0.95rem;
       font-weight: 650;
     }
@@ -346,6 +346,30 @@
       color: var(--muted);
     }
 
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 18px;
+    }
+
+    .meta-pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: #fbfcfb;
+      color: var(--accent-strong);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .text-link {
+      display: inline-flex;
+      margin-top: 16px;
+      color: var(--accent-strong);
+      font-weight: 800;
+    }
+
     .card.accent-rust {
       border-top: 4px solid var(--rust);
     }
@@ -421,6 +445,45 @@
       color: var(--muted);
     }
 
+    .repo-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .repo-row {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(180px, 0.6fr) minmax(130px, 0.45fr);
+      gap: 18px;
+      align-items: start;
+      background: var(--surface);
+    }
+
+    .repo-row h3 {
+      margin-bottom: 6px;
+      color: var(--ink);
+      font-size: 1.05rem;
+    }
+
+    .repo-row p,
+    .repo-side,
+    .repo-time {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .repo-side {
+      font-weight: 700;
+    }
+
+    .repo-time {
+      text-align: right;
+      font-weight: 700;
+      color: var(--accent-strong);
+    }
+
     .contact {
       margin: 40px 0 72px;
       border: 1px solid var(--line);
@@ -487,6 +550,15 @@
         grid-template-columns: 1fr;
         gap: 4px;
       }
+
+      .repo-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .repo-time {
+        text-align: left;
+      }
     }
 
     @media (max-width: 620px) {
@@ -531,6 +603,7 @@
       </a>
       <div class="nav-links">
         <a href="#work">作品</a>
+        <a href="#repos">仓库</a>
         <a href="#skills">能力</a>
         <a href="#notes">记录</a>
         <a href="#contact">联系</a>
@@ -544,7 +617,7 @@
         <p class="eyebrow">GitHub Pages Portfolio</p>
         <h1>用项目记录学习，用页面展示成长。</h1>
         <p class="lead">
-          你好，我是 Gan0819Han。这里会整理我的代码项目、课程实践、技术笔记和阶段性成果，方便快速了解我正在探索的方向。
+          你好，我是 Gan0819Han。我的公开仓库主要分布在机器人控制、控制系统仿真、算法练习、嵌入式开发和个人工具应用这几个方向，这里会把它们整理成一份更清楚的作品档案。
         </p>
         <div class="actions">
           <a class="button" href="https://github.com/Gan0819Han">访问 GitHub</a>
@@ -552,16 +625,16 @@
         </div>
         <div class="quick-facts" aria-label="主页概览">
           <div class="fact">
-            <strong>Project First</strong>
-            <span>以真实项目和代码产出为核心</span>
+            <strong>13 个公开仓库</strong>
+            <span>从课程实践到完整研究工程</span>
           </div>
           <div class="fact">
-            <strong>Study Notes</strong>
-            <span>沉淀学习过程中的关键结论</span>
+            <strong>Python / MATLAB 为主</strong>
+            <span>5 个 Python，4 个 MATLAB 项目</span>
           </div>
           <div class="fact">
-            <strong>Open Web</strong>
-            <span>通过 GitHub Pages 持续发布</span>
+            <strong>跨方向项目组合</strong>
+            <span>机器人、列控、Flutter、单片机</span>
           </div>
         </div>
       </div>
@@ -577,15 +650,15 @@
         <ul class="status-list">
           <li>
             <strong>当前定位</strong>
-            用主页集中展示项目、笔记和个人资料。
+            用主页集中展示真实仓库、研究主题和学习轨迹。
           </li>
           <li>
-            <strong>页面地址</strong>
-            gan0819han.github.io
+            <strong>仓库画像</strong>
+            公开仓库 13 个，最近更新聚焦在机械臂控制与主页建设。
           </li>
           <li>
-            <strong>下一步</strong>
-            替换为你的真实研究方向、邮箱和代表项目。
+            <strong>技术分布</strong>
+            Python、MATLAB、HTML、Dart、C。
           </li>
         </ul>
         <div class="profile-links">
@@ -598,23 +671,154 @@
     <section class="section wrap" id="work">
       <div class="section-head">
         <h2 class="section-title">精选作品</h2>
-        <p class="section-note">先用占位内容搭好结构，后续可以把卡片替换成你的真实仓库、论文项目或课程设计。</p>
+        <p class="section-note">基于你的公开仓库列表，这里先挑出最能代表当前方向的三个项目：研究型机械臂工程、移动端工具应用和控制系统仿真。</p>
       </div>
       <div class="grid-3">
         <article class="card accent-teal">
-          <span class="card-label">Repository</span>
-          <h3>个人主页</h3>
-          <p>基于 GitHub Pages 的个人展示页面，用于承载项目入口、学习记录和联系方式。</p>
+          <span class="card-label">Robotics Research</span>
+          <h3>ABB_IRB_1200_7-0.7_ARM_Control</h3>
+          <p>围绕 ABB IRB 1200 机械臂构建神经网络逆运动学工程，覆盖运动学建模、数据生成、子空间划分、候选生成、数值修正和可视化验证。</p>
+          <div class="project-meta">
+            <span class="meta-pill">Python</span>
+            <span class="meta-pill">1 Star</span>
+            <span class="meta-pill">Updated 2026-05</span>
+          </div>
+          <a class="text-link" href="https://github.com/Gan0819Han/ABB_IRB_1200_7-0.7_ARM_Control">查看仓库</a>
         </article>
         <article class="card accent-rust">
-          <span class="card-label">Course Project</span>
-          <h3>课程与实验项目</h3>
-          <p>适合放课程设计、实验报告、数据分析、机器人或算法相关项目。</p>
+          <span class="card-label">Mobile App</span>
+          <h3>Personal_Item_Manager</h3>
+          <p>基于 Flutter 的个人物品管理助手，聚焦物品记录、分类与日常管理，是你仓库里很适合放在首页的应用型项目。</p>
+          <div class="project-meta">
+            <span class="meta-pill">Dart</span>
+            <span class="meta-pill">Flutter</span>
+            <span class="meta-pill">Updated 2026-02</span>
+          </div>
+          <a class="text-link" href="https://github.com/Gan0819Han/Personal_Item_Manager">查看仓库</a>
         </article>
         <article class="card accent-gold">
-          <span class="card-label">Notes</span>
-          <h3>技术笔记</h3>
-          <p>整理长期学习中值得复用的思路、命令、排错记录和阶段性总结。</p>
+          <span class="card-label">Control Simulation</span>
+          <h3>Train_operation_control_system</h3>
+          <p>一个基于 Python 的列车运行控制系统仿真平台，覆盖 ATP 场景、多列车追踪控制、策略对比和结果可视化。</p>
+          <div class="project-meta">
+            <span class="meta-pill">Python</span>
+            <span class="meta-pill">Simulation</span>
+            <span class="meta-pill">Updated 2025-06</span>
+          </div>
+          <a class="text-link" href="https://github.com/Gan0819Han/Train_operation_control_system">查看仓库</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" id="repos">
+      <div class="section-head">
+        <h2 class="section-title">仓库总览</h2>
+        <p class="section-note">从公开仓库的命名、语言和更新时间来看，你的作品大致可以分成机器人控制、现代控制、算法练习、应用开发和嵌入式实现几条线。</p>
+      </div>
+      <div class="repo-list">
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/ABB_IRB_1200_7-0.7_ARM_Control">ABB_IRB_1200_7-0.7_ARM_Control</a></h3>
+            <p>神经网络逆运动学与机械臂建模的研究型工程，是目前最完整、最具代表性的机器人项目。</p>
+          </div>
+          <p class="repo-side">Python · Robotics</p>
+          <p class="repo-time">2026-05 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Gan0819Han.github.io">Gan0819Han.github.io</a></h3>
+            <p>当前个人主页仓库，用于展示项目、整理学习路径并持续发布公开作品。</p>
+          </div>
+          <p class="repo-side">HTML · Portfolio</p>
+          <p class="repo-time">2026-05 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Personal_Item_Manager">Personal_Item_Manager</a></h3>
+            <p>Flutter 个人物品管理应用，体现了你在跨平台移动端方向上的尝试。</p>
+          </div>
+          <p class="repo-side">Dart · App</p>
+          <p class="repo-time">2026-02 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Marshalling_Station_Automation">Marshalling_Station_Automation</a></h3>
+            <p>编组站自动化相关项目，适合归入轨道交通或调度自动化方向的工程实践。</p>
+          </div>
+          <p class="repo-side">HTML · Automation</p>
+          <p class="repo-time">2025-10 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Train_operation_control_system">Train_operation_control_system</a></h3>
+            <p>列车运行控制系统仿真平台，覆盖 ATP、多列车追踪与运行策略比较。</p>
+          </div>
+          <p class="repo-side">Python · Rail Control</p>
+          <p class="repo-time">2025-06 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Inverted_Pendulum_LQR">Inverted_Pendulum_LQR</a></h3>
+            <p>倒立摆 LQR 控制实验，属于现代控制课程体系里很典型的一类模型验证项目。</p>
+          </div>
+          <p class="repo-side">MATLAB · Control</p>
+          <p class="repo-time">2025-06 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Modern_Control_with_LQR">Modern_Control_with_LQR</a></h3>
+            <p>围绕 LQR 的现代控制实现与实验，和倒立摆项目一起构成控制理论方向的连续积累。</p>
+          </div>
+          <p class="repo-side">MATLAB · Control</p>
+          <p class="repo-time">2025-06 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Trajectory_Predict">Trajectory_Predict</a></h3>
+            <p>轨迹预测方向的 Python 项目，体现了你在建模与预测任务上的探索。</p>
+          </div>
+          <p class="repo-side">Python · Prediction</p>
+          <p class="repo-time">2025-06 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/ACO_with_PIDcontrol">ACO_with_PIDcontrol</a></h3>
+            <p>把蚁群优化与 PID 控制结合，属于优化算法与控制结合的实验型项目。</p>
+          </div>
+          <p class="repo-side">MATLAB · Optimization</p>
+          <p class="repo-time">2025-06 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/STC89C52_Temperature_Alarm">STC89C52_Temperature_Alarm</a></h3>
+            <p>基于 STC89C52 单片机的温度报警项目，补足了你的嵌入式与硬件控制实践。</p>
+          </div>
+          <p class="repo-side">C · Embedded</p>
+          <p class="repo-time">2025-05 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Detect_Tech_paper">Detect_Tech_paper</a></h3>
+            <p>检测技术相关课程或论文型仓库，偏向实验记录与方法整理。</p>
+          </div>
+          <p class="repo-side">MATLAB · Coursework</p>
+          <p class="repo-time">2025-05 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Python_Algorithm">Python_Algorithm</a></h3>
+            <p>算法练习与 Python 编程积累，是打基础也很适合长期更新的一类仓库。</p>
+          </div>
+          <p class="repo-side">Python · Algorithms</p>
+          <p class="repo-time">2025-05 更新</p>
+        </article>
+        <article class="repo-row">
+          <div>
+            <h3><a href="https://github.com/Gan0819Han/Pytorch_Learning">Pytorch_Learning</a></h3>
+            <p>PyTorch 学习仓库，体现了你在深度学习工具链上的入门与实验过程。</p>
+          </div>
+          <p class="repo-side">Python · Deep Learning</p>
+          <p class="repo-time">2025-04 更新</p>
         </article>
       </div>
     </section>
@@ -624,16 +828,18 @@
         <div>
           <h2 class="section-title">能力标签</h2>
           <p>
-            这些标签只是初版建议。你可以把它们替换成更具体的技术栈，例如 Python、C++、前端、机器人、深度学习或嵌入式开发。
+            从公开仓库分布来看，你的项目能力不是单一堆栈，而是围绕控制、仿真、算法和工程实现展开的组合型结构。
           </p>
         </div>
         <div class="tags" aria-label="能力标签">
-          <span class="tag">Git / GitHub</span>
-          <span class="tag">Web Publishing</span>
-          <span class="tag">Project Documentation</span>
-          <span class="tag">Learning Notes</span>
-          <span class="tag">Research Practice</span>
-          <span class="tag">Engineering Portfolio</span>
+          <span class="tag">Python Projects</span>
+          <span class="tag">MATLAB Control</span>
+          <span class="tag">Robotics Modeling</span>
+          <span class="tag">Rail Transit Simulation</span>
+          <span class="tag">Flutter App</span>
+          <span class="tag">Embedded C</span>
+          <span class="tag">Algorithm Practice</span>
+          <span class="tag">GitHub Pages</span>
         </div>
       </div>
     </section>
@@ -647,15 +853,22 @@
         <article class="timeline-item">
           <time datetime="2026-05">2026.05</time>
           <div>
-            <h3>上线个人主页</h3>
-            <p>完成 GitHub Pages 仓库初始化，并建立可持续扩展的首页结构。</p>
+            <h3>主页上线并接入真实仓库档案</h3>
+            <p>完成 GitHub Pages 首页建设，并把公开仓库整理成作品集结构，作为统一对外入口。</p>
           </div>
         </article>
         <article class="timeline-item">
-          <time datetime="2026">持续更新</time>
+          <time datetime="2026-04">2026.04</time>
           <div>
-            <h3>整理项目与学习笔记</h3>
-            <p>后续可以把每个项目链接到仓库、论文、演示页面或下载资料。</p>
+            <h3>机械臂逆运动学研究工程推进</h3>
+            <p>ABB IRB 项目成为目前仓库中最完整的研究型实现，集中体现了你的控制与机器人方向积累。</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <time datetime="2025-06">2025.06</time>
+          <div>
+            <h3>控制与仿真类项目集中产出</h3>
+            <p>列车运行控制、LQR、轨迹预测、PID 与优化等项目在这一阶段形成了比较明显的方向聚合。</p>
           </div>
         </article>
       </div>
