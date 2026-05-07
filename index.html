@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gan0819Han | 个人主页</title>
+  <meta name="description" content="Gan0819Han 的 GitHub Pages 个人主页，展示项目、学习记录和联系方式。">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7f4;
+      --surface: #ffffff;
+      --surface-soft: #edf4ef;
+      --text: #1f2a2e;
+      --muted: #5f6f69;
+      --line: #d7e0d9;
+      --accent: #0f766e;
+      --accent-strong: #134e4a;
+      --ink: #111827;
+      --rust: #a44f2b;
+      --gold: #b7791f;
+      --shadow: 0 24px 70px rgba(23, 45, 38, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        linear-gradient(90deg, rgba(19, 78, 74, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(19, 78, 74, 0.04) 1px, transparent 1px),
+        var(--bg);
+      background-size: 44px 44px;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-strong);
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(215, 224, 217, 0.9);
+      background: rgba(245, 247, 244, 0.88);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      display: inline-grid;
+      place-items: center;
+      background: var(--surface);
+      color: var(--accent-strong);
+      font-size: 0.88rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 650;
+    }
+
+    .hero {
+      padding: 82px 0 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      margin: 0 0 18px;
+      padding: 5px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--accent-strong);
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 22px;
+      max-width: 760px;
+      color: var(--ink);
+      font-size: clamp(2.65rem, 7vw, 5.6rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin-bottom: 30px;
+      max-width: 670px;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+
+    .button {
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .button:hover {
+      color: #ffffff;
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    .button.secondary {
+      background: var(--surface);
+      color: var(--accent-strong);
+    }
+
+    .button.secondary:hover {
+      color: var(--accent-strong);
+      background: var(--surface-soft);
+    }
+
+    .quick-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 700px;
+    }
+
+    .fact {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
+    .fact span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .profile-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 26px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .avatar {
+      width: 92px;
+      height: 92px;
+      border: 4px solid var(--surface-soft);
+      border-radius: 50%;
+      display: block;
+      object-fit: cover;
+      background: var(--surface-soft);
+    }
+
+    .profile-card h2 {
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 1.35rem;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .profile-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .status-list {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 0 0 24px;
+      list-style: none;
+    }
+
+    .status-list li {
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+      color: var(--muted);
+    }
+
+    .status-list strong {
+      display: block;
+      color: var(--text);
+    }
+
+    .profile-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .profile-link {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: var(--surface);
+      color: var(--accent-strong);
+      font-weight: 750;
+      text-align: center;
+    }
+
+    .section {
+      padding: 40px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      margin-bottom: 0;
+      color: var(--ink);
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .section-note {
+      max-width: 430px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      background: var(--surface);
+      min-height: 100%;
+    }
+
+    .card-label {
+      display: inline-flex;
+      margin-bottom: 18px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--accent-strong);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--ink);
+      font-size: 1.15rem;
+      line-height: 1.3;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .card.accent-rust {
+      border-top: 4px solid var(--rust);
+    }
+
+    .card.accent-gold {
+      border-top: 4px solid var(--gold);
+    }
+
+    .card.accent-teal {
+      border-top: 4px solid var(--accent);
+    }
+
+    .skill-panel {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      background: var(--surface);
+    }
+
+    .skill-panel p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: #fbfcfb;
+      color: var(--text);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: 138px 1fr;
+      gap: 18px;
+      background: var(--surface);
+    }
+
+    .timeline-item time {
+      color: var(--accent-strong);
+      font-weight: 850;
+    }
+
+    .timeline-item h3 {
+      margin-bottom: 6px;
+      color: var(--ink);
+      font-size: 1.05rem;
+    }
+
+    .timeline-item p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .contact {
+      margin: 40px 0 72px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    .contact h2 {
+      margin-bottom: 8px;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .contact p {
+      margin-bottom: 0;
+      color: #c9d5d2;
+    }
+
+    .contact .button.secondary {
+      border-color: rgba(255, 255, 255, 0.42);
+      background: transparent;
+      color: #ffffff;
+    }
+
+    .contact .button.secondary:hover {
+      border-color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      padding: 24px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .skill-panel,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-facts,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .wrap {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .hero {
+        padding: 48px 0 36px;
+      }
+
+      .profile-card,
+      .skill-panel,
+      .contact {
+        padding: 22px;
+      }
+
+      .profile-links {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="主导航">
+      <a class="brand" href="#">
+        <span class="brand-mark">GH</span>
+        <span>Gan0819Han</span>
+      </a>
+      <div class="nav-links">
+        <a href="#work">作品</a>
+        <a href="#skills">能力</a>
+        <a href="#notes">记录</a>
+        <a href="#contact">联系</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div>
+        <p class="eyebrow">GitHub Pages Portfolio</p>
+        <h1>用项目记录学习，用页面展示成长。</h1>
+        <p class="lead">
+          你好，我是 Gan0819Han。这里会整理我的代码项目、课程实践、技术笔记和阶段性成果，方便快速了解我正在探索的方向。
+        </p>
+        <div class="actions">
+          <a class="button" href="https://github.com/Gan0819Han">访问 GitHub</a>
+          <a class="button secondary" href="#work">查看作品</a>
+        </div>
+        <div class="quick-facts" aria-label="主页概览">
+          <div class="fact">
+            <strong>Project First</strong>
+            <span>以真实项目和代码产出为核心</span>
+          </div>
+          <div class="fact">
+            <strong>Study Notes</strong>
+            <span>沉淀学习过程中的关键结论</span>
+          </div>
+          <div class="fact">
+            <strong>Open Web</strong>
+            <span>通过 GitHub Pages 持续发布</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="profile-card" aria-labelledby="profile-title">
+        <div class="avatar-row">
+          <img class="avatar" src="https://github.com/Gan0819Han.png" alt="Gan0819Han 的 GitHub 头像">
+          <div>
+            <h2 id="profile-title">Gan0819Han</h2>
+            <p>Developer · Learner · Builder</p>
+          </div>
+        </div>
+        <ul class="status-list">
+          <li>
+            <strong>当前定位</strong>
+            用主页集中展示项目、笔记和个人资料。
+          </li>
+          <li>
+            <strong>页面地址</strong>
+            gan0819han.github.io
+          </li>
+          <li>
+            <strong>下一步</strong>
+            替换为你的真实研究方向、邮箱和代表项目。
+          </li>
+        </ul>
+        <div class="profile-links">
+          <a class="profile-link" href="https://github.com/Gan0819Han">GitHub</a>
+          <a class="profile-link" href="https://gan0819han.github.io/">Homepage</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section wrap" id="work">
+      <div class="section-head">
+        <h2 class="section-title">精选作品</h2>
+        <p class="section-note">先用占位内容搭好结构，后续可以把卡片替换成你的真实仓库、论文项目或课程设计。</p>
+      </div>
+      <div class="grid-3">
+        <article class="card accent-teal">
+          <span class="card-label">Repository</span>
+          <h3>个人主页</h3>
+          <p>基于 GitHub Pages 的个人展示页面，用于承载项目入口、学习记录和联系方式。</p>
+        </article>
+        <article class="card accent-rust">
+          <span class="card-label">Course Project</span>
+          <h3>课程与实验项目</h3>
+          <p>适合放课程设计、实验报告、数据分析、机器人或算法相关项目。</p>
+        </article>
+        <article class="card accent-gold">
+          <span class="card-label">Notes</span>
+          <h3>技术笔记</h3>
+          <p>整理长期学习中值得复用的思路、命令、排错记录和阶段性总结。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" id="skills">
+      <div class="skill-panel">
+        <div>
+          <h2 class="section-title">能力标签</h2>
+          <p>
+            这些标签只是初版建议。你可以把它们替换成更具体的技术栈，例如 Python、C++、前端、机器人、深度学习或嵌入式开发。
+          </p>
+        </div>
+        <div class="tags" aria-label="能力标签">
+          <span class="tag">Git / GitHub</span>
+          <span class="tag">Web Publishing</span>
+          <span class="tag">Project Documentation</span>
+          <span class="tag">Learning Notes</span>
+          <span class="tag">Research Practice</span>
+          <span class="tag">Engineering Portfolio</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="notes">
+      <div class="section-head">
+        <h2 class="section-title">近期记录</h2>
+        <p class="section-note">时间线适合展示你最近完成了什么，而不是只列一串链接。</p>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item">
+          <time datetime="2026-05">2026.05</time>
+          <div>
+            <h3>上线个人主页</h3>
+            <p>完成 GitHub Pages 仓库初始化，并建立可持续扩展的首页结构。</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <time datetime="2026">持续更新</time>
+          <div>
+            <h3>整理项目与学习笔记</h3>
+            <p>后续可以把每个项目链接到仓库、论文、演示页面或下载资料。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact wrap" id="contact">
+      <div>
+        <h2>保持开放，持续更新。</h2>
+        <p>如果你愿意，可以在这里加入邮箱、博客、简历链接或社交主页。</p>
+      </div>
+      <a class="button secondary" href="https://github.com/Gan0819Han/Gan0819Han.github.io">查看本站仓库</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Gan0819Han. Built with GitHub Pages.</span>
+  </footer>
+</body>
+</html>
