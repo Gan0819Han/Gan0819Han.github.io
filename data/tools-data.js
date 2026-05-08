@@ -7,6 +7,11 @@ window.toolsPageData = {
       endpointLabel: "POST /v1/responses",
       defaultBaseUrl: "https://api.openai.com/v1",
       defaultModel: "gpt-5-mini",
+      modelOptions: [
+        "gpt-5.2",
+        "gpt-5-mini",
+        "gpt-5-nano"
+      ],
       supportsVision: true,
       supportsLatex: true,
       note: "适合文本与图像混合输入，默认走 Responses API。"
@@ -18,6 +23,12 @@ window.toolsPageData = {
       endpointLabel: "POST /v1/messages",
       defaultBaseUrl: "https://api.anthropic.com/v1",
       defaultModel: "claude-sonnet-4-20250514",
+      modelOptions: [
+        "claude-sonnet-4-20250514",
+        "claude-opus-4-20250514",
+        "claude-3-7-sonnet-20250219",
+        "claude-3-5-haiku-20241022"
+      ],
       supportsVision: true,
       supportsLatex: true,
       note: "适合长文本和图像理解，走 Messages API。"
@@ -28,7 +39,12 @@ window.toolsPageData = {
       protocol: "openai-chat",
       endpointLabel: "POST /v1/chat/completions",
       defaultBaseUrl: "https://api.moonshot.cn/v1",
-      defaultModel: "kimi-k2.6",
+      defaultModel: "kimi-k2.5",
+      modelOptions: [
+        "kimi-k2.5",
+        "kimi-k2-turbo-preview",
+        "kimi-k2-thinking"
+      ],
       supportsVision: true,
       supportsLatex: true,
       note: "采用 OpenAI 兼容格式，适合中文场景和多模态输入。"
@@ -40,6 +56,12 @@ window.toolsPageData = {
       endpointLabel: "POST /chat/completions",
       defaultBaseUrl: "https://api.deepseek.com",
       defaultModel: "deepseek-v4-flash",
+      modelOptions: [
+        "deepseek-v4-flash",
+        "deepseek-v4-pro",
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ],
       supportsVision: false,
       supportsLatex: true,
       note: "默认按 OpenAI 兼容文本接口接入，适合文本推理与公式整理。"
@@ -49,22 +71,22 @@ window.toolsPageData = {
     {
       title: "OpenAI / GPT",
       summary: "支持 Responses API 的文本与图像输入，适合 LaTeX 生成和截图识别。",
-      meta: ["默认模型: gpt-5-mini", "接口: /v1/responses", "支持图像"]
+      meta: ["默认模型: gpt-5-mini", "可选: gpt-5.2 / gpt-5-mini / gpt-5-nano", "接口: /v1/responses", "支持图像"]
     },
     {
       title: "Anthropic / Claude",
       summary: "适合长文本解释和图像输入，接口独立但前端可以统一封装。",
-      meta: ["默认模型: claude-sonnet-4-20250514", "接口: /v1/messages", "支持图像"]
+      meta: ["默认模型: claude-sonnet-4-20250514", "可选: Sonnet 4 / Opus 4 / Sonnet 3.7", "接口: /v1/messages", "支持图像"]
     },
     {
       title: "Kimi / Moonshot",
       summary: "使用 OpenAI 兼容格式接入，适合中文学习工具和多模态任务。",
-      meta: ["默认模型: kimi-k2.6", "接口: /v1/chat/completions", "支持图像"]
+      meta: ["默认模型: kimi-k2.5", "可选: k2.5 / turbo-preview / thinking", "接口: /v1/chat/completions", "支持图像"]
     },
     {
       title: "DeepSeek",
       summary: "同样可通过 OpenAI 兼容方式接入，当前页默认用于文本类工具。",
-      meta: ["默认模型: deepseek-v4-flash", "接口: /chat/completions", "文本优先"]
+      meta: ["默认模型: deepseek-v4-flash", "可选: v4-flash / v4-pro / legacy aliases", "接口: /chat/completions", "文本优先"]
     }
   ],
   safetyNotes: [

@@ -629,46 +629,6 @@ h1 {
   gap: 18px;
 }
 
-.mock-shell {
-  border: 1px solid rgba(19, 78, 74, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.95);
-  overflow: hidden;
-}
-
-.mock-header {
-  padding: 12px 14px;
-  border-bottom: 1px solid rgba(19, 78, 74, 0.1);
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 0.86rem;
-  color: var(--muted);
-}
-
-.mock-header strong {
-  color: var(--ink);
-}
-
-.mock-body {
-  padding: 16px 14px;
-  display: grid;
-  gap: 14px;
-}
-
-.mock-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.mock-box {
-  border: 1px solid rgba(15, 118, 110, 0.14);
-  border-radius: 8px;
-  padding: 12px;
-  background: rgba(245, 247, 244, 0.78);
-}
-
 .mock-label {
   display: block;
   margin-bottom: 6px;
@@ -677,23 +637,99 @@ h1 {
   font-weight: 700;
 }
 
-.mock-matrix {
-  font-family: "Consolas", "Courier New", monospace;
-  white-space: pre;
-  color: var(--ink);
-  font-size: 0.9rem;
-  line-height: 1.5;
+.visual-frame {
+  border: 1px solid rgba(19, 78, 74, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 18px;
+  display: grid;
+  gap: 16px;
 }
 
-.mock-formula {
+.visual-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.visual-head strong {
+  display: block;
+  margin-bottom: 4px;
   color: var(--ink);
-  font-size: 1.1rem;
+  font-size: 1rem;
+}
+
+.visual-head span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.visual-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 12px;
+}
+
+.visual-card {
+  border: 1px solid rgba(15, 118, 110, 0.14);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(245, 247, 244, 0.78);
+  display: grid;
+  gap: 10px;
+}
+
+.visual-card p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.visual-card-ocr,
+.visual-card-matrix {
+  min-height: 172px;
+}
+
+.visual-card-ocr {
+  grid-column: 1 / -1;
+}
+
+.mini-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mini-matrix-grid span,
+.ocr-flow span {
+  min-height: 42px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  color: var(--ink);
   font-weight: 700;
 }
 
-.mock-caption {
-  color: var(--muted);
-  font-size: 0.88rem;
+.hero-math-preview {
+  min-height: 98px;
+  border-radius: 8px;
+  padding: 12px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.ocr-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .provider-grid,
@@ -712,7 +748,7 @@ h1 {
 }
 
 .tool-grid {
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: 380px minmax(0, 1fr);
   align-items: start;
 }
 
@@ -790,6 +826,10 @@ h1 {
   gap: 18px;
 }
 
+.tool-sidebar .field-grid.two-up {
+  grid-template-columns: 1fr;
+}
+
 .tool-sidebar h2,
 .tool-workspace h2 {
   margin-bottom: 8px;
@@ -821,6 +861,12 @@ h1 {
   color: var(--ink);
   font-size: 0.92rem;
   font-weight: 700;
+}
+
+.field-help {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
 }
 
 .field-group input,
@@ -975,6 +1021,62 @@ h1 {
   gap: 12px;
 }
 
+.matrix-input-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.matrix-input-card {
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.82);
+  display: grid;
+  gap: 14px;
+}
+
+.matrix-input-card.is-disabled {
+  opacity: 0.52;
+}
+
+.compact-head {
+  align-items: end;
+}
+
+.compact-head h4 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.matrix-dimension-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.matrix-cell-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.matrix-cell {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+  background: #ffffff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+}
+
+.matrix-cell:focus {
+  outline: 2px solid rgba(15, 118, 110, 0.14);
+  border-color: var(--accent);
+}
+
 .result-panel pre,
 .result-panel code,
 .result-empty,
@@ -1045,7 +1147,20 @@ h1 {
   padding: 18px;
   background: rgba(245, 247, 244, 0.72);
   color: var(--ink);
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.math-preview {
+  width: 100%;
+  overflow: auto hidden;
+}
+
+.formula-source {
+  color: var(--muted);
   font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.88rem;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -1094,9 +1209,14 @@ h1 {
   .matrix-layout,
   .latex-layout,
   .ocr-layout,
-  .mock-row,
+  .visual-grid,
+  .ocr-flow,
   .field-grid.two-up {
     grid-template-columns: 1fr;
+  }
+
+  .matrix-dimension-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .repo-time {

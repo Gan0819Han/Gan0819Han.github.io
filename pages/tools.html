@@ -50,32 +50,47 @@
       </div>
 
       <aside class="tools-visual">
-        <div class="mock-shell">
-          <div class="mock-header">
-            <strong>Tool Stack</strong>
-            <span>Config + Compute + AI</span>
-          </div>
-          <div class="mock-body">
+        <div class="visual-frame">
+          <div class="visual-head">
+            <div>
+              <strong>学习工具工作台</strong>
+              <span>Local Compute + BYOK AI</span>
+            </div>
             <div class="provider-pills">
               <span class="meta-pill">OpenAI</span>
               <span class="meta-pill">Claude</span>
               <span class="meta-pill">Kimi</span>
               <span class="meta-pill">DeepSeek</span>
             </div>
-            <div class="mock-row">
-              <div class="mock-box">
-                <span class="mock-label">矩阵运算</span>
-                <div class="mock-matrix">[ 1  2  3 ]\n[ 0  1  4 ]\n[ 5  6  0 ]</div>
+          </div>
+          <div class="visual-grid">
+            <article class="visual-card visual-card-matrix">
+              <span class="mock-label">矩阵计算</span>
+              <div class="mini-matrix-grid" aria-hidden="true">
+                <span>1</span><span>2</span><span>3</span>
+                <span>0</span><span>1</span><span>4</span>
+                <span>5</span><span>6</span><span>0</span>
               </div>
-              <div class="mock-box">
-                <span class="mock-label">LaTeX 输出</span>
-                <div class="mock-formula">\int_0^1 x^2\,dx = \frac{1}{3}</div>
+              <p>本地完成矩阵运算，不依赖外部服务。</p>
+            </article>
+            <article class="visual-card visual-card-formula">
+              <span class="mock-label">LaTeX 渲染预览</span>
+              <div class="hero-math-preview">
+                \[
+                \int_0^1 x^2\,dx = \frac{1}{3}
+                \]
               </div>
-            </div>
-            <div class="mock-box">
+              <p>适合公式整理、解释和截图识别后的再次检查。</p>
+            </article>
+            <article class="visual-card visual-card-ocr">
               <span class="mock-label">截图公式识别</span>
-              <div class="mock-caption">上传图片 - 调用模型 - 得到可复制的 LaTeX</div>
-            </div>
+              <div class="ocr-flow">
+                <span>上传截图</span>
+                <span>模型识别</span>
+                <span>复制 LaTeX</span>
+              </div>
+              <p>把图片中的公式转换成可复制的 LaTeX，再继续编辑或渲染。</p>
+            </article>
           </div>
         </div>
       </aside>
@@ -109,15 +124,19 @@
               <label for="provider-select">提供商</label>
               <select id="provider-select"></select>
             </div>
-            <div class="field-grid two-up">
-              <div class="field-group">
-                <label for="base-url">Base URL</label>
-                <input id="base-url" type="text" placeholder="https://api.openai.com/v1">
-              </div>
-              <div class="field-group">
-                <label for="model-name">模型名</label>
-                <input id="model-name" type="text" placeholder="gpt-5-mini">
-              </div>
+            <div class="field-group">
+              <label for="base-url">Base URL</label>
+              <input id="base-url" type="text" placeholder="https://api.openai.com/v1">
+            </div>
+            <div class="field-group">
+              <label for="model-preset">预设模型</label>
+              <select id="model-preset"></select>
+              <p class="field-help">下面会根据当前提供商提供官方常用模型选项。</p>
+            </div>
+            <div class="field-group">
+              <label for="model-name">模型名</label>
+              <input id="model-name" type="text" placeholder="gpt-5-mini">
+              <p class="field-help">可以直接选预设，也可以手动输入自己的模型名。</p>
             </div>
             <div class="field-group">
               <label for="api-key">API Key</label>
@@ -157,14 +176,38 @@
               </div>
             </div>
             <div class="matrix-layout">
-              <div class="field-grid">
-                <div class="field-group">
-                  <label for="matrix-a">矩阵 A</label>
-                  <textarea id="matrix-a" placeholder="1 2 3&#10;0 1 4&#10;5 6 0"></textarea>
+              <div class="matrix-input-stack">
+                <div class="matrix-input-card">
+                  <div class="panel-head compact-head">
+                    <h4>矩阵 A</h4>
+                    <div class="matrix-dimension-grid">
+                      <div class="field-group">
+                        <label for="matrix-a-rows">行数</label>
+                        <input id="matrix-a-rows" type="number" min="1" max="6" value="3">
+                      </div>
+                      <div class="field-group">
+                        <label for="matrix-a-cols">列数</label>
+                        <input id="matrix-a-cols" type="number" min="1" max="6" value="3">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="matrix-cell-grid" id="matrix-a-grid" aria-label="矩阵 A 输入网格"></div>
                 </div>
-                <div class="field-group">
-                  <label for="matrix-b">矩阵 B</label>
-                  <textarea id="matrix-b" placeholder="2 0 1&#10;1 3 2&#10;4 0 1"></textarea>
+                <div class="matrix-input-card" id="matrix-b-card">
+                  <div class="panel-head compact-head">
+                    <h4>矩阵 B</h4>
+                    <div class="matrix-dimension-grid">
+                      <div class="field-group">
+                        <label for="matrix-b-rows">行数</label>
+                        <input id="matrix-b-rows" type="number" min="1" max="6" value="3">
+                      </div>
+                      <div class="field-group">
+                        <label for="matrix-b-cols">列数</label>
+                        <input id="matrix-b-cols" type="number" min="1" max="6" value="3">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="matrix-cell-grid" id="matrix-b-grid" aria-label="矩阵 B 输入网格"></div>
                 </div>
                 <div class="field-group">
                   <label for="matrix-operation">运算类型</label>
@@ -177,6 +220,7 @@
                     <option value="determinant">det(A)</option>
                   </select>
                 </div>
+                <p class="helper-note">每个格子默认按数字输入，空白会按 0 处理。求逆和行列式要求矩阵 A 为方阵。</p>
               </div>
               <div class="result-panel">
                 <h3>结果</h3>
@@ -211,7 +255,7 @@
               <div class="result-panel">
                 <h3>结果与预览</h3>
                 <pre id="latex-result">结果会显示在这里。</pre>
-                <div class="formula-preview-box" id="latex-preview">预览区会直接显示返回的 LaTeX 文本，方便复制到 Overleaf、Typora 或 Markdown 环境中继续使用。</div>
+                <div class="formula-preview-box" id="latex-preview">生成结果后，这里会自动渲染成 LaTeX 预览。</div>
                 <div id="latex-status" class="provider-status">先选择模式并输入内容，再调用当前提供商。</div>
               </div>
             </div>
@@ -279,6 +323,18 @@
     </section>
   </main>
 
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"]]
+      },
+      svg: {
+        fontCache: "global"
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <script src="../data/tools-data.js"></script>
   <script src="../assets/js/tools-page.js"></script>
 </body>

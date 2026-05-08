@@ -13,7 +13,27 @@
   const state = {
     activeTool: "matrix",
     providerId: "openai",
-    imagePayload: null
+    imagePayload: null,
+    matrices: {
+      a: {
+        rows: 3,
+        cols: 3,
+        values: [
+          [1, 2, 3],
+          [0, 1, 4],
+          [5, 6, 0]
+        ]
+      },
+      b: {
+        rows: 3,
+        cols: 3,
+        values: [
+          [2, 0, 1],
+          [1, 3, 2],
+          [4, 0, 1]
+        ]
+      }
+    }
   };
 
   const nodes = {
@@ -21,6 +41,7 @@
     safetyCards: document.querySelector("#safety-cards"),
     tabBar: document.querySelector("#tool-tabs"),
     providerSelect: document.querySelector("#provider-select"),
+    modelPresetSelect: document.querySelector("#model-preset"),
     baseUrlInput: document.querySelector("#base-url"),
     modelInput: document.querySelector("#model-name"),
     apiKeyInput: document.querySelector("#api-key"),
@@ -28,8 +49,13 @@
     clearConfig: document.querySelector("#clear-config"),
     providerStatus: document.querySelector("#provider-status"),
     visionHint: document.querySelector("#vision-hint"),
-    matrixA: document.querySelector("#matrix-a"),
-    matrixB: document.querySelector("#matrix-b"),
+    matrixARows: document.querySelector("#matrix-a-rows"),
+    matrixACols: document.querySelector("#matrix-a-cols"),
+    matrixBRows: document.querySelector("#matrix-b-rows"),
+    matrixBCols: document.querySelector("#matrix-b-cols"),
+    matrixAGrid: document.querySelector("#matrix-a-grid"),
+    matrixBGrid: document.querySelector("#matrix-b-grid"),
+    matrixBCard: document.querySelector("#matrix-b-card"),
     matrixOperation: document.querySelector("#matrix-operation"),
     matrixRun: document.querySelector("#matrix-run"),
     matrixExample: document.querySelector("#matrix-example"),
@@ -59,13 +85,21 @@
     renderSafetyCards();
     renderToolTabs();
     renderLatexModes();
+    populateProviderSelect();
     loadSavedConfig();
     bindConfigEvents();
     bindToolEvents();
-    fillMatrixExamples();
-    applyProviderPreset(state.providerId);
+    syncMatrixControlsFromState();
+    renderMatrixGrid("a");
+    renderMatrixGrid("b");
     switchTool(state.activeTool);
+    updateMatrixInputMode();
+    applyProviderPreset(state.providerId, {
+      keepInputModel: Boolean(nodes.modelInput.value.trim()),
+      keepBaseUrl: Boolean(nodes.baseUrlInput.value.trim())
+    });
     updateProviderStatus();
+    renderMathPreview(nodes.latexPreview, null, "生成结果后，这里会自动渲染成 LaTeX 预览。");
   }
 
   function renderProviderCards() {
@@ -119,9 +153,46 @@
     `).join("");
   }
 
-  function bindConfigEvents() {
-    populateProviderSelect();
+  function populateProviderSelect() {
+    nodes.providerSelect.innerHTML = Object.values(data.providers).map((provider) => `
+      <option value="${provider.id}">${provider.label}</option>
+    `).join("");
+  }
 
+  function loadSavedConfig() {
+    const persistedRaw = localStorage.getItem(storageKeys.persistent);
+    const sessionRaw = sessionStorage.getItem(storageKeys.session);
+    const saved = safeParseJson(persistedRaw) || safeParseJson(sessionRaw);
+
+    nodes.providerSelect.value = state.providerId;
+
+    if (!saved) {
+      return;
+    }
+
+    if (saved.providerId && data.providers[saved.providerId]) {
+      state.providerId = saved.providerId;
+      nodes.providerSelect.value = saved.providerId;
+    }
+
+    applyProviderPreset(state.providerId);
+
+    if (saved.baseUrl) {
+      nodes.baseUrlInput.value = saved.baseUrl;
+    }
+
+    if (saved.model) {
+      nodes.modelInput.value = saved.model;
+    }
+
+    if (saved.apiKey) {
+      nodes.apiKeyInput.value = saved.apiKey;
+    }
+
+    nodes.rememberToggle.checked = Boolean(saved.remember);
+  }
+
+  function bindConfigEvents() {
     nodes.providerSelect.addEventListener("change", (event) => {
       const providerId = event.target.value;
       state.providerId = providerId;
@@ -130,8 +201,17 @@
       updateProviderStatus();
     });
 
+    nodes.modelPresetSelect.addEventListener("change", () => {
+      if (nodes.modelPresetSelect.value !== "__custom__") {
+        nodes.modelInput.value = nodes.modelPresetSelect.value;
+      }
+      saveConfig();
+      updateProviderStatus();
+    });
+
     [nodes.baseUrlInput, nodes.modelInput, nodes.apiKeyInput].forEach((node) => {
       node.addEventListener("input", () => {
+        syncModelPresetToInput();
         saveConfig();
         updateProviderStatus();
       });
@@ -163,54 +243,73 @@
       switchTool(button.dataset.toolTab);
     });
 
+    [
+      [nodes.matrixARows, "a", "rows"],
+      [nodes.matrixACols, "a", "cols"],
+      [nodes.matrixBRows, "b", "rows"],
+      [nodes.matrixBCols, "b", "cols"]
+    ].forEach(([node, matrixId, dimension]) => {
+      node.addEventListener("input", () => updateMatrixDimensions(matrixId, dimension, node.value));
+    });
+
+    nodes.matrixAGrid.addEventListener("input", handleMatrixCellInput);
+    nodes.matrixBGrid.addEventListener("input", handleMatrixCellInput);
+    nodes.matrixOperation.addEventListener("change", updateMatrixInputMode);
     nodes.matrixRun.addEventListener("click", runMatrixTool);
-    nodes.matrixExample.addEventListener("click", fillMatrixExamples);
+    nodes.matrixExample.addEventListener("click", loadMatrixExamples);
+
     nodes.latexRun.addEventListener("click", runLatexTool);
     nodes.latexCopy.addEventListener("click", () => copyText(nodes.latexResult.textContent, nodes.latexStatus));
-    nodes.ocrRun.addEventListener("click", runOcrTool);
-    nodes.ocrCopy.addEventListener("click", () => copyText(nodes.ocrResult.textContent, nodes.ocrStatus));
-    nodes.ocrFile.addEventListener("change", handleImageUpload);
     nodes.latexMode.addEventListener("change", () => {
       nodes.latexStatus.textContent = describeLatexMode(nodes.latexMode.value);
       nodes.latexStatus.className = "provider-status";
     });
+
+    nodes.ocrRun.addEventListener("click", runOcrTool);
+    nodes.ocrCopy.addEventListener("click", () => copyText(nodes.ocrResult.textContent, nodes.ocrStatus));
+    nodes.ocrFile.addEventListener("change", handleImageUpload);
   }
 
-  function populateProviderSelect() {
-    nodes.providerSelect.innerHTML = Object.values(data.providers).map((provider) => `
-      <option value="${provider.id}">${provider.label}</option>
-    `).join("");
-  }
+  function applyProviderPreset(providerId, options) {
+    const provider = data.providers[providerId];
+    const keepInputModel = options && options.keepInputModel;
+    const keepBaseUrl = options && options.keepBaseUrl;
 
-  function loadSavedConfig() {
-    const persistedRaw = localStorage.getItem(storageKeys.persistent);
-    const sessionRaw = sessionStorage.getItem(storageKeys.session);
-    const saved = safeParseJson(persistedRaw) || safeParseJson(sessionRaw);
-
-    if (!saved) {
+    if (!provider) {
       return;
     }
 
-    if (saved.providerId && data.providers[saved.providerId]) {
-      state.providerId = saved.providerId;
+    nodes.providerSelect.value = providerId;
+
+    if (!keepBaseUrl) {
+      nodes.baseUrlInput.value = provider.defaultBaseUrl;
     }
 
-    nodes.providerSelect.value = state.providerId;
-    applyProviderPreset(state.providerId);
-
-    if (saved.baseUrl) {
-      nodes.baseUrlInput.value = saved.baseUrl;
+    if (!keepInputModel) {
+      nodes.modelInput.value = provider.defaultModel;
     }
 
-    if (saved.model) {
-      nodes.modelInput.value = saved.model;
-    }
+    state.providerId = providerId;
+    populateModelPresetSelect(provider, nodes.modelInput.value.trim() || provider.defaultModel);
+    updateVisionHint(provider);
+  }
 
-    if (saved.apiKey) {
-      nodes.apiKeyInput.value = saved.apiKey;
-    }
+  function populateModelPresetSelect(provider, currentValue) {
+    const options = provider.modelOptions || [];
+    const current = currentValue || provider.defaultModel;
+    const hasCurrent = options.includes(current);
 
-    nodes.rememberToggle.checked = Boolean(saved.remember);
+    nodes.modelPresetSelect.innerHTML = [
+      ...options.map((item) => `<option value="${item}">${item}</option>`),
+      '<option value="__custom__">手动输入其他模型</option>'
+    ].join("");
+
+    nodes.modelPresetSelect.value = hasCurrent ? current : "__custom__";
+  }
+
+  function syncModelPresetToInput() {
+    const provider = getCurrentProvider();
+    populateModelPresetSelect(provider, nodes.modelInput.value.trim());
   }
 
   function saveConfig() {
@@ -229,20 +328,6 @@
     } else {
       localStorage.removeItem(storageKeys.persistent);
     }
-  }
-
-  function applyProviderPreset(providerId) {
-    const provider = data.providers[providerId];
-
-    if (!provider) {
-      return;
-    }
-
-    nodes.providerSelect.value = providerId;
-    nodes.baseUrlInput.value = provider.defaultBaseUrl;
-    nodes.modelInput.value = provider.defaultModel;
-    state.providerId = providerId;
-    updateVisionHint(provider);
   }
 
   function updateProviderStatus(message, className) {
@@ -274,7 +359,7 @@
 
     nodes.visionHint.textContent = provider.supportsVision
       ? `${provider.label} 已启用图像输入，截图公式工具可直接调用。`
-      : `${provider.label} 当前按文本接口接入，截图公式转 LaTeX 工具会提示切换到支持图像的提供商。`;
+      : `${provider.label} 当前在这个页面里按文本接口接入，请切换到支持图像的提供商。`;
   }
 
   function switchTool(toolId) {
@@ -288,15 +373,98 @@
     });
   }
 
-  function fillMatrixExamples() {
-    nodes.matrixA.value = data.matrixExamples.matrixA;
-    nodes.matrixB.value = data.matrixExamples.matrixB;
+  function syncMatrixControlsFromState() {
+    nodes.matrixARows.value = state.matrices.a.rows;
+    nodes.matrixACols.value = state.matrices.a.cols;
+    nodes.matrixBRows.value = state.matrices.b.rows;
+    nodes.matrixBCols.value = state.matrices.b.cols;
+  }
+
+  function updateMatrixDimensions(matrixId, dimension, value) {
+    const numericValue = clampDimension(value);
+    const matrix = state.matrices[matrixId];
+    matrix[dimension] = numericValue;
+    resizeMatrixValues(matrix);
+    syncMatrixControlsFromState();
+    renderMatrixGrid(matrixId);
+  }
+
+  function renderMatrixGrid(matrixId) {
+    const matrix = state.matrices[matrixId];
+    const target = matrixId === "a" ? nodes.matrixAGrid : nodes.matrixBGrid;
+    target.style.gridTemplateColumns = `repeat(${matrix.cols}, minmax(0, 1fr))`;
+    target.innerHTML = "";
+
+    matrix.values.forEach((row, rowIndex) => {
+      row.forEach((value, colIndex) => {
+        const input = document.createElement("input");
+        input.type = "number";
+        input.step = "any";
+        input.className = "matrix-cell";
+        input.dataset.matrix = matrixId;
+        input.dataset.row = String(rowIndex);
+        input.dataset.col = String(colIndex);
+        input.value = value;
+        target.appendChild(input);
+      });
+    });
+  }
+
+  function handleMatrixCellInput(event) {
+    const input = event.target;
+
+    if (!input.classList.contains("matrix-cell")) {
+      return;
+    }
+
+    const matrix = state.matrices[input.dataset.matrix];
+    const row = Number(input.dataset.row);
+    const col = Number(input.dataset.col);
+    const parsed = input.value === "" ? 0 : Number(input.value);
+    matrix.values[row][col] = Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  function updateMatrixInputMode() {
+    const isUnary = ["transpose", "inverse", "determinant"].includes(nodes.matrixOperation.value);
+    nodes.matrixBCard.classList.toggle("is-disabled", isUnary);
+    nodes.matrixBRows.disabled = isUnary;
+    nodes.matrixBCols.disabled = isUnary;
+    nodes.matrixBGrid.querySelectorAll("input").forEach((input) => {
+      input.disabled = isUnary;
+    });
+  }
+
+  function loadMatrixExamples() {
+    state.matrices.a = {
+      rows: 3,
+      cols: 3,
+      values: [
+        [1, 2, 3],
+        [0, 1, 4],
+        [5, 6, 0]
+      ]
+    };
+
+    state.matrices.b = {
+      rows: 3,
+      cols: 3,
+      values: [
+        [2, 0, 1],
+        [1, 3, 2],
+        [4, 0, 1]
+      ]
+    };
+
+    syncMatrixControlsFromState();
+    renderMatrixGrid("a");
+    renderMatrixGrid("b");
+    updateMatrixInputMode();
   }
 
   function runMatrixTool() {
     try {
-      const matrixA = parseMatrix(nodes.matrixA.value);
-      const matrixB = nodes.matrixB.value.trim() ? parseMatrix(nodes.matrixB.value) : null;
+      const matrixA = readMatrix("a");
+      const matrixB = readMatrix("b");
       const operation = nodes.matrixOperation.value;
 
       let result;
@@ -304,15 +472,15 @@
 
       switch (operation) {
         case "add":
-          result = addMatrices(matrixA, requireMatrixB(matrixB));
+          result = addMatrices(matrixA, matrixB);
           meta = "A + B";
           break;
         case "subtract":
-          result = subtractMatrices(matrixA, requireMatrixB(matrixB));
+          result = subtractMatrices(matrixA, matrixB);
           meta = "A - B";
           break;
         case "multiply":
-          result = multiplyMatrices(matrixA, requireMatrixB(matrixB));
+          result = multiplyMatrices(matrixA, matrixB);
           meta = "A × B";
           break;
         case "transpose":
@@ -341,7 +509,7 @@
       nodes.matrixMeta.className = "provider-status status-success";
     } catch (error) {
       nodes.matrixResult.innerHTML = `<div class="result-empty status-error">${escapeHtml(error.message)}</div>`;
-      nodes.matrixMeta.textContent = "请检查矩阵维度、格式或所选运算。";
+      nodes.matrixMeta.textContent = "请检查矩阵维度、输入内容或所选运算。";
       nodes.matrixMeta.className = "provider-status status-error";
     }
   }
@@ -365,7 +533,7 @@
       const result = await callTextModel(prompt);
 
       nodes.latexResult.textContent = result;
-      nodes.latexPreview.textContent = result;
+      renderMathPreview(nodes.latexPreview, result, "返回内容不是有效的 LaTeX 时，这里仍会保留原始文本。");
       nodes.latexStatus.textContent = "已生成结果，可直接复制。";
       nodes.latexStatus.className = "provider-status status-success";
     } catch (error) {
@@ -387,7 +555,7 @@
     }
 
     if (!provider.supportsVision) {
-      nodes.ocrStatus.textContent = `${provider.label} 当前在这个页面里按文本接口接入，请切换到 OpenAI、Claude 或 Kimi。`;
+      nodes.ocrStatus.textContent = `${provider.label} 当前在这个页面里按文本接口接入，请切换到支持图像的提供商。`;
       nodes.ocrStatus.className = "provider-status status-error";
       return;
     }
@@ -608,6 +776,7 @@
 
   function setBusy(button, busy, text) {
     button.disabled = busy;
+
     if (text) {
       button.textContent = text;
     }
@@ -623,7 +792,7 @@
   }
 
   function copyText(value, statusNode) {
-    if (!value || value.includes("结果会显示在这里")) {
+    if (!value || value.includes("结果会显示在这里") || value.includes("识别结果会显示在这里")) {
       statusNode.textContent = "当前没有可复制的内容。";
       statusNode.className = "provider-status status-error";
       return;
@@ -638,37 +807,70 @@
     });
   }
 
-  function parseMatrix(raw) {
-    const rows = raw.trim().split(/\n+/).map((line) => line.trim()).filter(Boolean);
-
-    if (!rows.length) {
-      throw new Error("矩阵内容不能为空。");
+  function renderMathPreview(targetNode, latex, placeholder) {
+    if (!targetNode) {
+      return;
     }
 
-    const matrix = rows.map((line) => {
-      const cells = line.split(/[\s,，;；]+/).filter(Boolean).map(Number);
-
-      if (cells.some((value) => Number.isNaN(value))) {
-        throw new Error("矩阵中包含无法解析的数字。");
-      }
-
-      return cells;
-    });
-
-    const width = matrix[0].length;
-
-    if (!width || matrix.some((row) => row.length !== width)) {
-      throw new Error("每一行的列数需要一致。");
+    if (!latex) {
+      targetNode.textContent = placeholder;
+      return;
     }
 
-    return matrix;
+    const mathNode = document.createElement("div");
+    mathNode.className = "math-preview";
+    mathNode.textContent = `\\[${latex}\\]`;
+
+    const sourceNode = document.createElement("div");
+    sourceNode.className = "formula-source";
+    sourceNode.textContent = latex;
+
+    targetNode.replaceChildren(mathNode, sourceNode);
+    typesetMath([targetNode]);
   }
 
-  function requireMatrixB(matrix) {
-    if (!matrix) {
-      throw new Error("当前操作需要矩阵 B。");
+  function typesetMath(elements) {
+    if (!window.MathJax || typeof window.MathJax.typesetPromise !== "function") {
+      return Promise.resolve();
     }
-    return matrix;
+
+    return window.MathJax.typesetPromise(elements.filter(Boolean)).catch(() => Promise.resolve());
+  }
+
+  function clampDimension(value) {
+    const parsed = Number(value);
+
+    if (Number.isNaN(parsed)) {
+      return 1;
+    }
+
+    return Math.min(6, Math.max(1, Math.round(parsed)));
+  }
+
+  function resizeMatrixValues(matrix) {
+    const nextValues = Array.from({ length: matrix.rows }, (_, rowIndex) => {
+      return Array.from({ length: matrix.cols }, (_, colIndex) => {
+        const currentRow = matrix.values[rowIndex] || [];
+        const value = currentRow[colIndex];
+        return typeof value === "number" ? value : 0;
+      });
+    });
+
+    matrix.values = nextValues;
+  }
+
+  function readMatrix(matrixId) {
+    const matrix = state.matrices[matrixId];
+    const target = matrixId === "a" ? nodes.matrixAGrid : nodes.matrixBGrid;
+
+    target.querySelectorAll(".matrix-cell").forEach((input) => {
+      const row = Number(input.dataset.row);
+      const col = Number(input.dataset.col);
+      const parsed = input.value === "" ? 0 : Number(input.value);
+      matrix.values[row][col] = Number.isNaN(parsed) ? 0 : parsed;
+    });
+
+    return matrix.values.map((row) => row.slice());
   }
 
   function addMatrices(a, b) {
