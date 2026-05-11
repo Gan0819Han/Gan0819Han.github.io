@@ -71,7 +71,7 @@
     ocrFile: document.querySelector("#ocr-file"),
     ocrPrompt: document.querySelector("#ocr-prompt"),
     ocrRun: document.querySelector("#ocr-run"),
-    ocrCopy: document.querySelector("#ocr-copy"),
+    ocrCopyInline: document.querySelector("#ocr-copy-inline"),
     ocrResult: document.querySelector("#ocr-result"),
     ocrStatus: document.querySelector("#ocr-status"),
     ocrPreview: document.querySelector("#ocr-preview"),
@@ -266,7 +266,9 @@
     });
 
     nodes.ocrRun.addEventListener("click", runOcrTool);
-    nodes.ocrCopy.addEventListener("click", () => copyText(nodes.ocrResult.textContent, nodes.ocrStatus));
+    if (nodes.ocrCopyInline) {
+      nodes.ocrCopyInline.addEventListener("click", () => copyText(nodes.ocrResult.value, nodes.ocrStatus));
+    }
     nodes.ocrFile.addEventListener("change", handleImageUpload);
   }
 
@@ -566,7 +568,7 @@
       nodes.ocrStatus.className = "provider-status";
 
       const result = await callVisionModel(prompt || defaultOcrPrompt(), state.imagePayload);
-      nodes.ocrResult.textContent = result;
+      nodes.ocrResult.value = result;
       nodes.ocrStatus.textContent = "识别完成，可直接复制到 LaTeX 编辑器中。";
       nodes.ocrStatus.className = "provider-status status-success";
     } catch (error) {
@@ -720,8 +722,7 @@
       },
       body: JSON.stringify({
         model: config.model,
-        messages: [{ role: "user", content }],
-        temperature: 0.2
+        messages: [{ role: "user", content }]
       })
     });
 
@@ -792,19 +793,54 @@
   }
 
   function copyText(value, statusNode) {
-    if (!value || value.includes("结果会显示在这里") || value.includes("识别结果会显示在这里")) {
+    const normalizedValue = (value || "").trim();
+
+    if (!normalizedValue || normalizedValue.includes("结果会显示在这里") || normalizedValue.includes("识别结果会显示在这里") || normalizedValue.includes("识别结果会显示在这里")) {
       statusNode.textContent = "当前没有可复制的内容。";
       statusNode.className = "provider-status status-error";
       return;
     }
 
-    navigator.clipboard.writeText(value).then(() => {
-      statusNode.textContent = "已复制到剪贴板。";
-      statusNode.className = "provider-status status-success";
-    }).catch(() => {
-      statusNode.textContent = "复制失败，请手动选择文本。";
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(normalizedValue).then(() => {
+        statusNode.textContent = "已复制到剪贴板。";
+        statusNode.className = "provider-status status-success";
+      }).catch(() => {
+        fallbackCopyText(normalizedValue, statusNode);
+      });
+      return;
+    }
+
+    fallbackCopyText(normalizedValue, statusNode);
+  }
+
+  function fallbackCopyText(value, statusNode) {
+    const helper = document.createElement("textarea");
+    helper.value = value;
+    helper.setAttribute("readonly", "");
+    helper.style.position = "fixed";
+    helper.style.opacity = "0";
+    helper.style.pointerEvents = "none";
+    document.body.appendChild(helper);
+    helper.focus();
+    helper.select();
+    helper.setSelectionRange(0, helper.value.length);
+
+    try {
+      const copied = document.execCommand("copy");
+      if (copied) {
+        statusNode.textContent = "已复制到剪贴板。";
+        statusNode.className = "provider-status status-success";
+      } else {
+        statusNode.textContent = "当前环境限制了自动复制，请手动选择文本。";
+        statusNode.className = "provider-status status-error";
+      }
+    } catch (error) {
+      statusNode.textContent = "当前环境限制了自动复制，请手动选择文本。";
       statusNode.className = "provider-status status-error";
-    });
+    } finally {
+      document.body.removeChild(helper);
+    }
   }
 
   function renderMathPreview(targetNode, latex, placeholder) {

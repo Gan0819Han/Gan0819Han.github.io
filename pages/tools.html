@@ -268,7 +268,6 @@
                 <p class="panel-hint">上传一张包含数学公式的截图，页面会把图片直接发送给当前提供商的视觉模型，并返回可复制的 LaTeX。</p>
               </div>
               <div class="tool-actions">
-                <button class="copy-button" id="ocr-copy" type="button">复制结果</button>
                 <button class="button" id="ocr-run" type="button">识别公式</button>
               </div>
             </div>
@@ -288,7 +287,13 @@
                 <div class="ocr-preview" id="ocr-preview">
                   <div class="preview-placeholder">上传截图后，这里会显示预览。</div>
                 </div>
-                <pre id="ocr-result">识别结果会显示在这里。</pre>
+                <div class="ocr-result-block">
+                  <div class="ocr-result-head">
+                    <h4>识别结果</h4>
+                    <button class="copy-button inline-copy-button" id="ocr-copy-inline" type="button">一键复制</button>
+                  </div>
+                  <textarea id="ocr-result" spellcheck="false" placeholder="识别结果会显示在这里。"></textarea>
+                </div>
                 <div id="ocr-status" class="provider-status">如果当前提供商不支持图像输入，页面会提示切换到支持图像的模型。</div>
               </div>
             </div>
