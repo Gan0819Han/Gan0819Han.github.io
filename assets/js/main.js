@@ -8,6 +8,10 @@
   const featuredContainer = document.querySelector("#featured-projects");
   const repoContainer = document.querySelector("#repo-overview");
   const yearNode = document.querySelector("#current-year");
+  const sidebarLinks = Array.from(document.querySelectorAll("[data-section-link]"));
+  const trackedSections = sidebarLinks
+    .map((link) => document.querySelector(`#${link.dataset.sectionLink}`))
+    .filter(Boolean);
 
   if (featuredContainer) {
     featuredContainer.innerHTML = data.featuredProjects.map(renderFeaturedProject).join("");
@@ -19,6 +23,11 @@
 
   if (yearNode) {
     yearNode.textContent = String(new Date().getFullYear());
+  }
+
+  if (sidebarLinks.length && trackedSections.length) {
+    syncActiveSidebarLink();
+    window.addEventListener("scroll", syncActiveSidebarLink, { passive: true });
   }
 
   function renderFeaturedProject(project) {
@@ -45,5 +54,20 @@
         <p class="repo-time">${repo.updated}</p>
       </article>
     `;
+  }
+
+  function syncActiveSidebarLink() {
+    const activeSection = trackedSections.findLast((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= 160;
+    }) || trackedSections[0];
+
+    if (!activeSection) {
+      return;
+    }
+
+    sidebarLinks.forEach((link) => {
+      link.classList.toggle("is-active", link.dataset.sectionLink === activeSection.id);
+    });
   }
 })();

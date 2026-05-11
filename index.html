@@ -18,189 +18,176 @@
         <a href="#work">作品</a>
         <a href="#repos">仓库</a>
         <a href="pages/tools.html">工具</a>
-        <a href="#skills">能力</a>
-        <a href="#notes">记录</a>
         <a href="#contact">联系</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="hero wrap">
-      <div>
-        <p class="eyebrow">GitHub Pages Portfolio</p>
-        <h1>用项目记录学习，用页面展示成长。</h1>
-        <p class="lead">
-          你好，我是甘甘，现在在继续从中南大学 CSU 的本科阶段走到中国科学技术大学 USTC 的硕士阶段，主要关注计算机视觉和具身智能。这个主页会慢慢整理我的项目、研究方向和阶段记录，作为一个长期更新的公开入口。
-        </p>
-        <div class="actions">
-          <a class="button" href="https://github.com/Gan0819Han">访问 GitHub</a>
-          <a class="button secondary" href="#work">查看作品</a>
-          <a class="button secondary" href="pages/tools.html">学习工具</a>
-        </div>
-        <div class="quick-facts" aria-label="主页概览">
-          <div class="fact">
-            <strong>13 个公开仓库</strong>
-            <span>从课程实践到完整研究工程</span>
+    <div class="home-shell wrap">
+      <div class="home-main">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">GitHub Pages Portfolio</p>
+            <h1>用项目记录学习，用页面展示成长。</h1>
+            <p class="lead">
+              你好，我是甘甘，现在在继续从中南大学 CSU 的本科阶段走到中国科学技术大学 USTC 的硕士阶段，主要关注计算机视觉和具身智能。这个主页会慢慢整理我的项目、研究方向和阶段记录，作为一个长期更新的公开入口。
+            </p>
+            <div class="actions">
+              <a class="button" href="https://github.com/Gan0819Han">访问 GitHub</a>
+              <a class="button secondary" href="#work">查看作品</a>
+              <a class="button secondary" href="pages/tools.html">学习工具</a>
+            </div>
+            <div class="quick-facts" aria-label="主页概览">
+              <div class="fact">
+                <strong>13 个公开仓库</strong>
+                <span>从课程实践到完整研究工程</span>
+              </div>
+              <div class="fact">
+                <strong>Python / MATLAB 为主</strong>
+                <span>5 个 Python，4 个 MATLAB 项目</span>
+              </div>
+              <div class="fact">
+                <strong>跨方向项目组合</strong>
+                <span>机器人、列控、Flutter、单片机</span>
+              </div>
+            </div>
           </div>
-          <div class="fact">
-            <strong>Python / MATLAB 为主</strong>
-            <span>5 个 Python，4 个 MATLAB 项目</span>
+
+          <aside class="profile-card" aria-labelledby="profile-title">
+            <div class="avatar-row">
+              <img class="avatar" src="https://github.com/Gan0819Han.png" alt="Gan0819Han 的 GitHub 头像">
+              <div>
+                <h2 id="profile-title">甘甘</h2>
+                <p>Computer Vision · Embodied AI</p>
+              </div>
+            </div>
+            <ul class="status-list">
+              <li>
+                <strong>学校经历</strong>
+                本科在中南大学 CSU，接下来会在中国科学技术大学 USTC 读硕士。
+              </li>
+              <li>
+                <strong>研究方向</strong>
+                计算机视觉、具身智能。
+              </li>
+              <li>
+                <strong>联系方式</strong>
+                <span class="stacked-text">2019394441@qq.com</span>
+                <span class="stacked-text">g972040894@gmail.com</span>
+              </li>
+            </ul>
+            <div class="profile-links">
+              <a class="profile-link" href="https://github.com/Gan0819Han">GitHub</a>
+              <a class="profile-link" href="https://gan0819han.github.io/">Homepage</a>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section" id="work">
+          <div class="section-head">
+            <h2 class="section-title">精选作品</h2>
+            <p class="section-note">基于公开仓库列表，这里先挑出最能代表当前方向的三个项目：研究型机械臂工程、移动端工具应用和控制系统仿真。</p>
           </div>
-          <div class="fact">
-            <strong>跨方向项目组合</strong>
-            <span>机器人、列控、Flutter、单片机</span>
+          <div class="grid-3" id="featured-projects"></div>
+        </section>
+
+        <section class="section" id="repos">
+          <div class="section-head">
+            <h2 class="section-title">仓库总览</h2>
+            <p class="section-note">从公开仓库的命名、语言和更新时间来看，这些项目大致可以分成机器人控制、现代控制、算法练习、应用开发和嵌入式实现几条线。</p>
           </div>
-        </div>
+          <div class="repo-list" id="repo-overview"></div>
+        </section>
+
+        <section class="section">
+          <div class="structure-panel">
+            <div>
+              <h2 class="section-title">功能入口</h2>
+              <p class="section-note">这里集中放当前已经拆出来的独立页面。后续继续加新功能时，也可以沿着这个入口区继续扩展，而不用把所有内容都堆回首页。</p>
+            </div>
+            <div class="structure-links">
+              <a class="structure-link-card" href="pages/tools.html">
+                <strong>学习工具页</strong>
+                <span>矩阵计算、LaTeX 助手和截图公式识别。</span>
+              </a>
+              <a class="structure-link-card" href="pages/projects.html">
+                <strong>项目页</strong>
+                <span>后续适合承接更完整的项目整理与分类展示。</span>
+              </a>
+              <a class="structure-link-card" href="pages/notes.html">
+                <strong>记录页</strong>
+                <span>后续可以集中放阶段记录、学习笔记和更新日志。</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="contact" id="contact">
+          <div class="contact-copy">
+            <h2>联系与信息</h2>
+            <p>欢迎通过邮箱联系项目交流、研究讨论或学习合作。</p>
+          </div>
+          <div class="contact-grid">
+            <article class="contact-card">
+              <span class="contact-label">姓名</span>
+              <strong>甘甘</strong>
+            </article>
+            <article class="contact-card">
+              <span class="contact-label">学校</span>
+              <strong>中南大学 CSU</strong>
+              <p>本科</p>
+            </article>
+            <article class="contact-card">
+              <span class="contact-label">学校</span>
+              <strong>中国科学技术大学 USTC</strong>
+              <p>硕士</p>
+            </article>
+            <article class="contact-card">
+              <span class="contact-label">研究方向</span>
+              <strong>计算机视觉</strong>
+            </article>
+            <article class="contact-card">
+              <span class="contact-label">研究方向</span>
+              <strong>具身智能</strong>
+            </article>
+            <article class="contact-card">
+              <span class="contact-label">邮箱</span>
+              <a href="mailto:2019394441@qq.com">2019394441@qq.com</a>
+              <a href="mailto:g972040894@gmail.com">g972040894@gmail.com</a>
+            </article>
+          </div>
+          <a class="button secondary" href="https://github.com/Gan0819Han/Gan0819Han.github.io">查看本站仓库</a>
+        </section>
       </div>
 
-      <aside class="profile-card" aria-labelledby="profile-title">
-        <div class="avatar-row">
-          <img class="avatar" src="https://github.com/Gan0819Han.png" alt="Gan0819Han 的 GitHub 头像">
-          <div>
-            <h2 id="profile-title">甘甘</h2>
-            <p>Computer Vision · Embodied AI</p>
+      <aside class="home-sidebar" aria-label="页面侧边栏">
+        <div class="sidebar-panel">
+          <div class="sidebar-group">
+            <p class="sidebar-title">页面导览</p>
+            <div class="sidebar-links">
+              <a class="sidebar-link" href="#work" data-section-link="work">精选作品</a>
+              <a class="sidebar-link" href="#repos" data-section-link="repos">仓库总览</a>
+              <a class="sidebar-link" href="#contact" data-section-link="contact">联系与信息</a>
+            </div>
           </div>
-        </div>
-        <ul class="status-list">
-          <li>
-            <strong>学校经历</strong>
-            本科在中南大学 CSU，接下来会在中国科学技术大学 USTC 读硕士。
-          </li>
-          <li>
-            <strong>研究方向</strong>
-            计算机视觉、具身智能。
-          </li>
-          <li>
-            <strong>联系方式</strong>
-            <span class="stacked-text">2019394441@qq.com</span>
-            <span class="stacked-text">g972040894@gmail.com</span>
-          </li>
-        </ul>
-        <div class="profile-links">
-          <a class="profile-link" href="https://github.com/Gan0819Han">GitHub</a>
-          <a class="profile-link" href="https://gan0819han.github.io/">Homepage</a>
+          <div class="sidebar-group">
+            <p class="sidebar-title">快捷入口</p>
+            <div class="sidebar-links">
+              <a class="sidebar-link" href="https://github.com/Gan0819Han">GitHub</a>
+              <a class="sidebar-link" href="pages/tools.html">学习工具页</a>
+              <a class="sidebar-link" href="https://github.com/Gan0819Han/Gan0819Han.github.io">本站仓库</a>
+            </div>
+          </div>
+          <div class="sidebar-group">
+            <p class="sidebar-title">页面操作</p>
+            <div class="sidebar-links">
+              <a class="sidebar-link sidebar-link-strong" href="#">回到顶部</a>
+            </div>
+          </div>
         </div>
       </aside>
-    </section>
-
-    <section class="section wrap" id="work">
-      <div class="section-head">
-        <h2 class="section-title">精选作品</h2>
-        <p class="section-note">基于公开仓库列表，这里先挑出最能代表当前方向的三个项目：研究型机械臂工程、移动端工具应用和控制系统仿真。</p>
-      </div>
-      <div class="grid-3" id="featured-projects"></div>
-    </section>
-
-    <section class="section wrap" id="repos">
-      <div class="section-head">
-        <h2 class="section-title">仓库总览</h2>
-        <p class="section-note">从公开仓库的命名、语言和更新时间来看，这些项目大致可以分成机器人控制、现代控制、算法练习、应用开发和嵌入式实现几条线。</p>
-      </div>
-      <div class="repo-list" id="repo-overview"></div>
-    </section>
-
-    <section class="section wrap" id="skills">
-      <div class="skill-panel">
-        <div>
-          <h2 class="section-title">能力标签</h2>
-          <p>
-            从公开仓库分布来看，项目内容并不是单一堆栈，而是围绕控制、仿真、算法和工程实现展开的组合型结构。
-          </p>
-        </div>
-        <div class="tags" aria-label="能力标签">
-          <span class="tag">Python Projects</span>
-          <span class="tag">MATLAB Control</span>
-          <span class="tag">Robotics Modeling</span>
-          <span class="tag">Rail Transit Simulation</span>
-          <span class="tag">Flutter App</span>
-          <span class="tag">Embedded C</span>
-          <span class="tag">Algorithm Practice</span>
-          <span class="tag">GitHub Pages</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section wrap" id="notes">
-      <div class="section-head">
-        <h2 class="section-title">近期记录</h2>
-        <p class="section-note">时间线适合展示近期阶段进展，而不是只列一串链接。</p>
-      </div>
-      <div class="timeline">
-        <article class="timeline-item">
-          <time datetime="2026-05">2026.05</time>
-          <div>
-            <h3>主页上线并接入真实仓库档案</h3>
-            <p>完成 GitHub Pages 首页建设，并把公开仓库整理成作品集结构，作为统一对外入口。</p>
-          </div>
-        </article>
-        <article class="timeline-item">
-          <time datetime="2026-04">2026.04</time>
-          <div>
-            <h3>机械臂逆运动学研究工程推进</h3>
-            <p>ABB IRB 项目形成了较完整的研究型实现，覆盖机械臂建模、逆运动学求解与相关实验流程。</p>
-          </div>
-        </article>
-        <article class="timeline-item">
-          <time datetime="2025-06">2025.06</time>
-          <div>
-            <h3>控制与仿真类项目集中产出</h3>
-            <p>列车运行控制、LQR、轨迹预测、PID 与优化等项目在这一阶段形成了比较明显的方向聚合。</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section wrap">
-      <div class="structure-panel">
-        <div>
-          <h2 class="section-title">结构化构建</h2>
-          <p class="section-note">当前主页已经拆分为页面骨架、样式、脚本和数据文件。后续新增功能时，可以优先沿着这个结构继续扩展。</p>
-        </div>
-        <div class="structure-links">
-          <a class="profile-link" href="pages/tools.html">学习工具页</a>
-          <a class="profile-link" href="pages/projects.html">项目页占位</a>
-          <a class="profile-link" href="pages/notes.html">记录页占位</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact wrap" id="contact">
-      <div class="contact-copy">
-        <h2>联系与信息</h2>
-        <p>欢迎通过邮箱联系项目交流、研究讨论或学习合作。</p>
-      </div>
-      <div class="contact-grid">
-        <article class="contact-card">
-          <span class="contact-label">姓名</span>
-          <strong>甘甘</strong>
-        </article>
-        <article class="contact-card">
-          <span class="contact-label">学校</span>
-          <strong>中南大学 CSU</strong>
-          <p>本科</p>
-        </article>
-        <article class="contact-card">
-          <span class="contact-label">学校</span>
-          <strong>中国科学技术大学 USTC</strong>
-          <p>硕士</p>
-        </article>
-        <article class="contact-card">
-          <span class="contact-label">研究方向</span>
-          <strong>计算机视觉</strong>
-        </article>
-        <article class="contact-card">
-          <span class="contact-label">研究方向</span>
-          <strong>具身智能</strong>
-        </article>
-        <article class="contact-card">
-          <span class="contact-label">邮箱</span>
-          <a href="mailto:2019394441@qq.com">2019394441@qq.com</a>
-          <a href="mailto:g972040894@gmail.com">g972040894@gmail.com</a>
-        </article>
-      </div>
-      <a class="button secondary" href="https://github.com/Gan0819Han/Gan0819Han.github.io">查看本站仓库</a>
-    </section>
+    </div>
   </main>
 
   <footer class="site-footer">
